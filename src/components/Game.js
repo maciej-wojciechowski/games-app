@@ -11,21 +11,33 @@ const Game = ({ name, id, image }) => {
 };
 
 const StyledGame = styled.div`
-  width: 20rem;
+  cursor: pointer;
+  width: 100%;
   height: 15rem;
   margin: 0 0.5rem;
   background: white;
   position: relative;
   overflow: hidden;
+  border-radius: 1rem;
+  transition: 0.5s ease;
+  box-shadow: 5px 5px 15px 5px #000000;
+  &:hover {
+    transform: scale(1.05);
+  }
+  h3 {
+    text-align: center;
+    background: rgba(255, 255, 255, 0.8);
+    z-index: 2;
+    position: absolute;
+    width: 100%;
+  }
 
   img {
-    width: 200px;
-    height: 200px;
+    position: relative;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
-    border-radius: 50%;
-    position: absolute;
-    bottom: -10%;
-    right: -25%;
+    transform: scale(1.05);
   }
 `;
 

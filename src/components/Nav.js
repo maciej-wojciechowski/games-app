@@ -1,12 +1,21 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { searchGames } from "../actions/gamesActions";
+// Icon
+import search from "../icons/search.svg";
+// Components
+import Filter from "./Filter";
+import { AnimateSharedLayout } from "framer-motion";
 
 const Nav = () => {
   const dispatch = useDispatch();
   const [textInput, setTextInput] = useState("");
   const [sliderInput, setSliderInput] = useState(0);
+  const [dateFromInput, setDateFromInput] = useState(null);
+  const [dateToInput, setDateToInput] = useState(null);
+  const [inputGenreId, setInputGenreId] = useState("");
+  const [inputPlatforms, setInputPlatforms] = useState("");
 
   const inputHandler = (e) => {
     setTextInput(e.target.value);
@@ -14,61 +23,92 @@ const Nav = () => {
 
   const searchHandler = (e) => {
     e.preventDefault();
-    dispatch(searchGames(textInput, sliderInput));
+    let searchInput = {
+      textInput,
+      sliderInput,
+      dateFromInput,
+      dateToInput,
+      inputGenreId,
+      inputPlatforms,
+    };
+    dispatch(searchGames(searchInput));
     setTextInput("");
   };
 
-  // Slider
-  const sliderHandler = (e) => {
-    setSliderInput(e.target.value);
-  };
+  const { genres } = useSelector((state) => state.games);
 
   return (
     <StyledNav>
-      <h1>Game App</h1>
+      <Logo>
+        <i className="fas fa-gamepad fa-4x"></i>
+        <h1>Game App</h1>
+      </Logo>
       <form className="search">
         <input type="text" value={textInput} onChange={inputHandler} />
         <button type="submit" onClick={searchHandler}>
-          Search
+          <i className="fas fa-search fa-2x"></i>
         </button>
       </form>
       <StyledFilters>
-        <SliderContainer>
-          <label htmlFor="metaCriticSlider">Metacritic:</label>
-          <input
-            name="metaCriticSlider"
-            type="range"
-            min="1"
-            max="100"
-            value={sliderInput}
-            onChange={sliderHandler}
-          />
-        </SliderContainer>
-        <span>{sliderInput}</span>
+        <Filter
+          genres={genres}
+          sliderInput={sliderInput}
+          setSliderInput={setSliderInput}
+          dateFromInput={dateFromInput}
+          setDateFromInput={setDateFromInput}
+          setDateToInput={setDateToInput}
+          inputGenreId={inputGenreId}
+          setInputGenreId={setInputGenreId}
+          inputPlatforms={inputPlatforms}
+          setInputPlatforms={setInputPlatforms}
+        />
       </StyledFilters>
     </StyledNav>
   );
 };
 
 const StyledNav = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  height: 8rem;
   h1 {
-    margin: 1rem;
+    margin: 0;
+    margin-top: 2rem;
+    margin-left: 1rem;
+    font-family: "Permanent Marker", cursive;
+  }
+  img {
+    width: 2rem;
+    color: white;
+  }
+  form {
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    input {
+      height: 3rem;
+      width: 50%;
+      border: none;
+      font-size: 1.5rem;
+      padding: 0.3rem;
+    }
+    button {
+      border: none;
+      background: rgba(255, 255, 255, 0.5);
+      height: 3rem;
+      width: 3rem;
+      cursor: pointer;
+    }
+  }
+`;
+const Logo = styled.div`
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  i {
+    margin-bottom: 0.5rem;
   }
 `;
 const StyledFilters = styled.div`
-  display: flex;
-
   width: 100%;
-`;
-const SliderContainer = styled.div`
-  width: 30%;
-  input {
-    width: 100%;
-  }
 `;
 
 export default Nav;

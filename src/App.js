@@ -6,6 +6,8 @@ import GlobalStyles from "./components/GlobalStyles";
 // Components
 import Nav from "./components/Nav";
 import Home from "./pages/Home";
+//Antd styles
+import "antd/dist/antd.css";
 
 function App() {
   return (
