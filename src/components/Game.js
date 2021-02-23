@@ -16,7 +16,6 @@ const StyledGame = styled.div`
   cursor: pointer;
   width: 100%;
   height: 15rem;
-  margin: 0 0.5rem;
   background: white;
   position: relative;
   overflow: hidden;
@@ -40,6 +39,10 @@ const StyledGame = styled.div`
     height: 100%;
     object-fit: cover;
     transform: scale(1.05);
+  }
+
+  @media (max-width: 500px) {
+    height: 10rem;
   }
 `;
 

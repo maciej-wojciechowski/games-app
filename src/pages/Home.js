@@ -52,15 +52,25 @@ const Home = () => {
 
 const GameTopList = styled(motion.div)`
   display: flex;
+  @media (max-width: 500px) {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-column-gap: 2rem;
+    grid-row-gap: 3rem;
+  }
 `;
 const GamesTop = styled(motion.div)`
   margin: auto 1rem;
   h2 {
     margin: 1rem;
   }
-  @media (max-width: 500px) {
+  /* @media (max-width: 500px) {
     width: 100%;
-  }
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-column-gap: 2rem;
+    grid-row-gap: 3rem;
+  } */
 `;
 
 const GameList = styled(motion.div)`

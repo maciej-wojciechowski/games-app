@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { searchGames } from "../actions/gamesActions";
-// Icon
-import search from "../icons/search.svg";
+
 // Components
 import Filter from "./Filter";
 import { motion } from "framer-motion";
@@ -105,6 +104,14 @@ const Logo = styled.div`
   justify-content: center;
   i {
     margin-bottom: 0.5rem;
+  }
+  @media (max-width: 500px) {
+    h1 {
+      font-size: 2rem;
+    }
+    i {
+      font-size: 2rem;
+    }
   }
 `;
 const StyledFilters = styled(motion.div)`

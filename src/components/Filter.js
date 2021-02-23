@@ -65,9 +65,9 @@ const Filter = ({
         {toggle ? (
           <motion.div
             className="main-container"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}>
+            initial={{ opacity: 0, height: "0" }}
+            animate={{ opacity: 1, height: "100%" }}
+            exit={{ opacity: 0, height: "0" }}>
             <Container>
               <h4>Metacritic</h4>
               <Slider
