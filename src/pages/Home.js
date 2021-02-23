@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
+import { motion } from "framer-motion";
 import { loadGames } from "../actions/gamesActions";
 //Components
 import Game from "../components/Game";
@@ -12,7 +13,7 @@ const Home = () => {
   }, [dispatch]);
   const { popular, searched } = useSelector((state) => state.games);
   return (
-    <div>
+    <motion.div>
       <GameSection>
         {searched.length ? (
           <>
@@ -45,14 +46,14 @@ const Home = () => {
           ))}
         </GameTopList>
       </GamesTop>
-    </div>
+    </motion.div>
   );
 };
 
-const GameTopList = styled.div`
+const GameTopList = styled(motion.div)`
   display: flex;
 `;
-const GamesTop = styled.div`
+const GamesTop = styled(motion.div)`
   margin: auto 1rem;
   h2 {
     margin: 1rem;
@@ -62,7 +63,7 @@ const GamesTop = styled.div`
   }
 `;
 
-const GameList = styled.div`
+const GameList = styled(motion.div)`
   margin: 0 auto;
   width: 95%;
   display: grid;
@@ -71,7 +72,7 @@ const GameList = styled.div`
   grid-row-gap: 3rem;
   align-items: start;
 `;
-const GameSection = styled.div`
+const GameSection = styled(motion.div)`
   h2 {
     padding-left: 1rem;
   }

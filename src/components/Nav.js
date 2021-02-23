@@ -6,7 +6,7 @@ import { searchGames } from "../actions/gamesActions";
 import search from "../icons/search.svg";
 // Components
 import Filter from "./Filter";
-import { AnimateSharedLayout } from "framer-motion";
+import { motion } from "framer-motion";
 
 const Nav = () => {
   const dispatch = useDispatch();
@@ -67,7 +67,7 @@ const Nav = () => {
   );
 };
 
-const StyledNav = styled.div`
+const StyledNav = styled(motion.div)`
   h1 {
     margin: 0;
     margin-top: 2rem;
@@ -107,7 +107,7 @@ const Logo = styled.div`
     margin-bottom: 0.5rem;
   }
 `;
-const StyledFilters = styled.div`
+const StyledFilters = styled(motion.div)`
   width: 100%;
 `;
 

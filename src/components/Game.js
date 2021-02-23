@@ -1,11 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 
+import { smallImage } from "../util";
+
 const Game = ({ name, id, image }) => {
   return (
     <StyledGame>
       <h3>{name}</h3>
-      <img src={image} alt={name} />
+      <img src={smallImage(image, 640)} alt={name} />
     </StyledGame>
   );
 };
