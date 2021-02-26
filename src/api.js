@@ -56,3 +56,7 @@ export const searchGameURL = (searchInput) => {
 };
 
 export const genresURL = () => `${base_url}genres`;
+
+export const gameDetailURL = (id) => `${base_url}games/${id}`;
+export const gameScreenshotURL = (game_id) =>
+  `${base_url}games/${game_id}/screenshots`;

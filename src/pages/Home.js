@@ -3,10 +3,17 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import { loadGames } from "../actions/gamesActions";
+import { useLocation } from "react-router-dom";
 //Components
 import Game from "../components/Game";
+import GameDetail from "../components/GameDetail";
 
 const Home = () => {
+  //location
+  const location = useLocation();
+  const pathId = location.pathname.split("/")[2];
+  console.log(pathId);
+  //fetch games
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(loadGames());
@@ -14,6 +21,7 @@ const Home = () => {
   const { popular, searched } = useSelector((state) => state.games);
   return (
     <motion.div>
+      {pathId && <GameDetail />}
       <GameSection>
         {searched.length ? (
           <>
@@ -52,6 +60,9 @@ const Home = () => {
 
 const GameTopList = styled(motion.div)`
   display: flex;
+  div {
+    margin: 0 0.5rem;
+  }
   @media (max-width: 500px) {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -64,13 +75,6 @@ const GamesTop = styled(motion.div)`
   h2 {
     margin: 1rem;
   }
-  /* @media (max-width: 500px) {
-    width: 100%;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    grid-column-gap: 2rem;
-    grid-row-gap: 3rem;
-  } */
 `;
 
 const GameList = styled(motion.div)`

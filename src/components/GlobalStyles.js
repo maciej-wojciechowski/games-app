@@ -26,6 +26,7 @@ h2{
 h2,h3,h4{
     font-weight:bolder
     }
+img{display:block}
 `;
 
 export default GlobalStyles;

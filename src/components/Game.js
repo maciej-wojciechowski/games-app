@@ -1,13 +1,23 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
+import { loadDetailGame, loadScreenshots } from "../actions/detailActions";
 import { smallImage } from "../util";
+import { Link } from "react-router-dom";
 
 const Game = ({ name, id, image }) => {
+  const dispatch = useDispatch();
+  const loadGame = () => {
+    document.body.style.overflow = "hidden";
+    dispatch(loadDetailGame(id));
+  };
   return (
-    <StyledGame>
-      <h3>{name}</h3>
-      <img src={smallImage(image, 640)} alt={name} />
+    <StyledGame onClick={loadGame}>
+      <Link to={`/game/${id}`}>
+        <h3>{name}</h3>
+        <img src={smallImage(image, 640)} alt={name} />
+      </Link>
     </StyledGame>
   );
 };

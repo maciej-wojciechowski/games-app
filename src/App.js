@@ -8,13 +8,17 @@ import Nav from "./components/Nav";
 import Home from "./pages/Home";
 //Antd styles
 import "antd/dist/antd.css";
+//Router
+import { Route } from "react-router-dom";
 
 function App() {
   return (
     <div className="App">
       <GlobalStyles />
       <Nav />
-      <Home />
+      <Route path={["/game/:id", "/"]}>
+        <Home />
+      </Route>
     </div>
   );
 }
