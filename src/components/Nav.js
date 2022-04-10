@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { searchGames } from "../actions/gamesActions";
@@ -6,35 +6,83 @@ import { searchGames } from "../actions/gamesActions";
 // Components
 import Filter from "./Filter";
 import { motion } from "framer-motion";
+import { debounce } from "lodash";
+
+const initialFilters = {
+  textInput: "",
+  metacritic: 0,
+  dateFrom: null,
+  dateTo: null,
+  genreId: 0,
+  platforms: "",
+};
 
 const Nav = () => {
   const dispatch = useDispatch();
-  const [textInput, setTextInput] = useState("");
-  const [sliderInput, setSliderInput] = useState(0);
-  const [dateFromInput, setDateFromInput] = useState(null);
-  const [dateToInput, setDateToInput] = useState(null);
-  const [inputGenreId, setInputGenreId] = useState("");
-  const [inputPlatforms, setInputPlatforms] = useState("");
+  const [filters, setFilters] = useState(initialFilters);
+  const debouncedSearch = useRef(
+    debounce((newFilters) => dispatchSearchGames(newFilters), 600)
+  );
+  function onFiltersChange(input, type) {
+    console.log(input, type);
 
-  const inputHandler = (e) => {
-    setTextInput(e.target.value);
-  };
+    switch (type) {
+      case "text":
+        setFilters((prev) => ({
+          ...prev,
+          textInput: input.target.value,
+        }));
+        break;
+      case "metacritic":
+        setFilters((prev) => ({
+          ...prev,
+          metacritic: input,
+        }));
+        break;
+      case "dateFrom":
+        setFilters((prev) => ({
+          ...prev,
+          dateFrom: input ? input.format("YYYY-MM-DD") : null,
+        }));
+        break;
+      case "dateTo":
+        setFilters((prev) => ({
+          ...prev,
+          dateTo: input ? input.format("YYYY-MM-DD") : null,
+        }));
+        break;
+      case "genreId":
+        setFilters((prev) => ({
+          ...prev,
+          genreId: input,
+        }));
+        break;
+      case "platforms":
+        setFilters((prev) => ({
+          ...prev,
+          platforms: input,
+        }));
+        break;
+      default:
+        break;
+    }
+  }
 
-  const searchHandler = (e) => {
-    e.preventDefault();
-    let searchInput = {
-      textInput,
-      sliderInput,
-      dateFromInput,
-      dateToInput,
-      inputGenreId,
-      inputPlatforms,
-    };
-    dispatch(searchGames(searchInput));
-    setTextInput("");
-  };
+  function dispatchSearchGames(newFilters) {
+    console.log("disp");
+    console.log(newFilters);
+    dispatch(searchGames(newFilters));
+  }
 
-  const { genres } = useSelector((state) => state.games);
+  function searchHandler(e) {
+    e?.preventDefault();
+    console.log(filters);
+    dispatch(searchGames(filters));
+  }
+
+  useEffect(() => {
+    debouncedSearch.current(filters);
+  }, [filters, filters.genreId]);
 
   return (
     <StyledNav>
@@ -43,24 +91,17 @@ const Nav = () => {
         <h1>Game App</h1>
       </Logo>
       <form className="search">
-        <input type="text" value={textInput} onChange={inputHandler} />
+        <input
+          type="text"
+          value={filters.text}
+          onChange={(e) => onFiltersChange(e, "text")}
+        />
         <button type="submit" onClick={searchHandler}>
           <i className="fas fa-search fa-2x"></i>
         </button>
       </form>
       <StyledFilters>
-        <Filter
-          genres={genres}
-          sliderInput={sliderInput}
-          setSliderInput={setSliderInput}
-          dateFromInput={dateFromInput}
-          setDateFromInput={setDateFromInput}
-          setDateToInput={setDateToInput}
-          inputGenreId={inputGenreId}
-          setInputGenreId={setInputGenreId}
-          inputPlatforms={inputPlatforms}
-          setInputPlatforms={setInputPlatforms}
-        />
+        <Filter filters={filters} onFiltersChange={onFiltersChange} />
       </StyledFilters>
     </StyledNav>
   );

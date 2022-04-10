@@ -8,6 +8,7 @@ import {
 import styled from "styled-components";
 
 import { DatePicker, Slider, Select, Checkbox } from "antd";
+import { useSelector } from "react-redux";
 const { Option } = Select;
 
 // Platforms checkbox
@@ -21,44 +22,17 @@ const platformsArr = [
   { label: "Xbox One", value: "1" },
 ];
 
-const Filter = ({
-  genres,
-  sliderInput,
-  setSliderInput,
-  setDateFromInput,
-  setDateToInput,
-  inputGenreId,
-  setInputGenreId,
-  inputPlatforms,
-  setInputPlatforms,
-}) => {
-  // Toglle
+const Filter = ({ filters, onFiltersChange }) => {
   const [toggle, setToggle] = useState(false);
-  // Filters input handlers
-  const sliderHandler = (e) => {};
-  const dateFromHandler = (value) => {
-    return value ? setDateFromInput(value.format("YYYY-MM-DD")) : [];
-  };
-  const dateToHandler = (value) => {
-    return value ? setDateToInput(value.format("YYYY-MM-DD")) : [];
-  };
-  const genreIdHandler = (value) => {
-    setInputGenreId(value);
-  };
-  const platformsHandler = (target) => {
-    return target.length ? setInputPlatforms(target) : setInputPlatforms("");
-  };
+
+  const { genres } = useSelector((state) => state.games);
 
   return (
     <StyledFilter>
       <div className="filter-head">
         <h2 onClick={() => setToggle(!toggle)}>
           Filters
-          {toggle ? (
-            <i className="fas fa-chevron-up"></i>
-          ) : (
-            <i className="fas fa-chevron-down"></i>
-          )}
+          <i className={`fas fa-chevron-${toggle ? "up" : "down"}`}></i>
         </h2>
       </div>
       <AnimatePresence>
@@ -72,20 +46,27 @@ const Filter = ({
               <h4>Metacritic</h4>
               <Slider
                 name="metaCriticSlider"
-                onChange={(e) => setSliderInput(e)}
+                value={filters.metacritic}
+                onChange={(e) => onFiltersChange(e, "metacritic")}
               />
-              <span>{sliderInput}</span>
+              <span>{filters.metacritic}</span>
             </Container>
             <Container>
               <h4>Release</h4>
               <div className="date-container">
                 <label htmlFor="from-date">From</label>
-                <DatePicker name="from-date" onChange={dateFromHandler} />
+                <DatePicker
+                  name="from-date"
+                  onChange={(e) => onFiltersChange(e, "dateFrom")}
+                />
               </div>
               <br />
               <div className="date-container">
                 <label htmlFor="to-date">To</label>
-                <DatePicker name="to-date" onChange={dateToHandler} />
+                <DatePicker
+                  name="to-date"
+                  onChange={(e) => onFiltersChange(e, "dateTo")}
+                />
               </div>
             </Container>
             <Container>
@@ -93,9 +74,9 @@ const Filter = ({
               <Select
                 style={{ width: "200px" }}
                 id="select-genre"
-                value={inputGenreId}
-                onChange={genreIdHandler}>
-                <Option value="">All</Option>
+                value={filters.genre}
+                onChange={(e) => onFiltersChange(e, "genreId")}>
+                <Option value={0}>All</Option>
                 {genres.map((genre) => (
                   <Option key={genre.id} value={genre.id}>
                     {genre.name}
@@ -109,8 +90,7 @@ const Filter = ({
                 <Checkbox.Group
                   className="platforms-container"
                   options={platformsArr}
-                  // defaultValue={["4"]}
-                  onChange={platformsHandler}
+                  onChange={(e) => onFiltersChange(e, "platforms")}
                 />
               </div>
             </Container>
