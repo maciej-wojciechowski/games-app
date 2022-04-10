@@ -1,6 +1,5 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { loadGames } from "./actions/gamesActions";
+import React from "react";
+
 // Global style
 import GlobalStyles from "./components/GlobalStyles";
 // Components
