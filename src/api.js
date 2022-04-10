@@ -39,23 +39,24 @@ export const popularGames = `games?dates=${lastYear},${currentDate}&ordering-rat
 export const searchGameURL = (searchInput) => {
   let {
     textInput,
-    sliderInput,
-    dateFromInput,
-    dateToInput,
-    inputGenreId,
-    inputPlatforms,
+    metacritic,
+    dateFrom,
+    dateTo,
+    genreId,
+    platforms,
   } = searchInput;
-  let [game_name, meta, dateFrom, dateTo, genre_id, platforms] = [
-    textInput,
-    sliderInput,
-    dateFromInput,
-    dateToInput,
-    inputGenreId,
-    inputPlatforms,
-  ];
-  return `games?search=${game_name}${meta ? `&metacritic=${meta},100` : ""}${
+
+  console.log(genreId)
+
+  console.log(`games?search=${textInput}${metacritic ? `&metacritic=${metacritic},100` : ""}${
     dateFrom && dateTo ? `&dates=${dateFrom},${dateTo}` : ""
-  }${genre_id ? `&genres=${genre_id}` : ""}${
+  }${genreId ? `&genres=${genreId}` : ""}${
+    platforms ? `&platforms=${platforms.toString()}` : ""
+  }&page_size=25`)
+ 
+  return `games?search=${textInput}${metacritic ? `&metacritic=${metacritic},100` : ""}${
+    dateFrom && dateTo ? `&dates=${dateFrom},${dateTo}` : ""
+  }${genreId ? `&genres=${genreId}` : ""}${
     platforms ? `&platforms=${platforms.toString()}` : ""
   }&page_size=25`;
 };
