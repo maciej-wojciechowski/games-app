@@ -33,9 +33,7 @@ const currentDate = `${currentYear}-${currentMonth}-${currentDay}`;
 const lastYear = `${currentYear - 1}-${currentMonth}-${currentDay}`;
 const nextYear = `${currentYear + 1}-${currentMonth}-${currentDay}`;
 
-export const popular_games = `games?dates=${lastYear},${currentDate}&ordering-rating&page_size=5`;
-
-export const popularGamesURL = () => `${baseUrl}${popular_games}`;
+export const popularGames = `games?dates=${lastYear},${currentDate}&ordering-rating&page_size=5`;
 
 //Searched game
 export const searchGameURL = (searchInput) => {
@@ -55,15 +53,14 @@ export const searchGameURL = (searchInput) => {
     inputGenreId,
     inputPlatforms,
   ];
-  return `${baseUrl}games?search=${game_name}${
-    meta ? `&metacritic=${meta},100` : ""
-  }${dateFrom && dateTo ? `&dates=${dateFrom},${dateTo}` : ""}${
-    genre_id ? `&genres=${genre_id}` : ""
-  }${platforms ? `&platforms=${platforms.toString()}` : ""}&page_size=25`;
+  return `games?search=${game_name}${meta ? `&metacritic=${meta},100` : ""}${
+    dateFrom && dateTo ? `&dates=${dateFrom},${dateTo}` : ""
+  }${genre_id ? `&genres=${genre_id}` : ""}${
+    platforms ? `&platforms=${platforms.toString()}` : ""
+  }&page_size=25`;
 };
 
 export const genresURL = "genres";
 
-export const gameDetailURL = (id) => `${baseUrl}games/${id}`;
-export const gameScreenshotURL = (game_id) =>
-  `${baseUrl}games/${game_id}/screenshots`;
+export const gameDetailURL = (id) => `games/${id}`;
+export const gameScreenshotURL = (game_id) => `games/${game_id}/screenshots`;
