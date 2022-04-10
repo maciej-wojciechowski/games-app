@@ -21,7 +21,7 @@ const GameDetail = () => {
         <DetailContainer className="container" onClick={exitDetailHandler}>
           <DetailCard>
             <h2>{game.name}</h2>
-            <h3>{game.rating}</h3>
+            <h3>Rating: {game.rating}</h3>
             {game.platforms.map((platform) => (
               <h4>{platform.platform.name}</h4>
             ))}

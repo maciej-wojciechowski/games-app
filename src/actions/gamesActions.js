@@ -1,10 +1,9 @@
-import axios from "axios";
-import { popularGamesURL, searchGameURL, genresURL } from "../api";
+import { searchGameURL, genresURL, axiosInstance, popularGames } from "../api";
 
 export const loadGames = () => async (dispatch) => {
   //FETCH AXIOS
-  const popularData = await axios.get(popularGamesURL());
-  const genresData = await axios.get(genresURL());
+  const popularData = await axiosInstance.get(popularGames);
+  const genresData = await axiosInstance.get(genresURL);
   dispatch({
     type: "FETCH_GAMES",
     payload: {
@@ -15,9 +14,7 @@ export const loadGames = () => async (dispatch) => {
 };
 export const searchGames = (searchInput) => async (dispatch) => {
   // FETCH AXIOS
-  const searchData = await axios.get(searchGameURL(searchInput));
-  // console.log(searchInput);
-  // console.log(searchGameURL(searchInput));
+  const searchData = await axiosInstance.get(searchGameURL(searchInput));
   dispatch({
     type: "SEARCH_GAMES",
     payload: {

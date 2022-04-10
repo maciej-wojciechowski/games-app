@@ -13,11 +13,12 @@ const Home = () => {
   const location = useLocation();
   const pathId = location.pathname.split("/")[2];
   console.log(pathId);
+
   //fetch games
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(loadGames());
-  }, [dispatch]);
+  }, []);
   const { popular, searched } = useSelector((state) => state.games);
   return (
     <motion.div>
