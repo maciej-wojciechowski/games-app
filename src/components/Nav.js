@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState, useEffect, useRef } from "react";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { searchGames } from "../actions/gamesActions";
 
@@ -20,8 +20,9 @@ const initialFilters = {
 const Nav = () => {
   const dispatch = useDispatch();
   const [filters, setFilters] = useState(initialFilters);
+  const isInitialRender = useRef(true)
   const debouncedSearch = useRef(
-    debounce((newFilters) => dispatchSearchGames(newFilters), 600)
+    debounce((newFilters) => dispatchSearchGames(newFilters), 1000)
   );
   function onFiltersChange(input, type) {
     console.log(input, type);
@@ -69,20 +70,27 @@ const Nav = () => {
   }
 
   function dispatchSearchGames(newFilters) {
-    console.log("disp");
-    console.log(newFilters);
     dispatch(searchGames(newFilters));
   }
 
   function searchHandler(e) {
     e?.preventDefault();
-    console.log(filters);
     dispatch(searchGames(filters));
   }
 
   useEffect(() => {
-    debouncedSearch.current(filters);
-  }, [filters, filters.genreId]);
+    if (!isInitialRender.current) {
+      debouncedSearch.current(filters);
+    } else {
+      isInitialRender.current = false
+    }
+  }, [
+    filters.genreId, 
+    filters.platforms,
+    filters.dateFrom,
+    filters.dateTo,
+    filters.metacritic,
+  ]);
 
   return (
     <StyledNav>
